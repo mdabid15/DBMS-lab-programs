@@ -1,0 +1,265 @@
+ CREATE DATABASE SALESMEN;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [library_program]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| library            |
+| library_program    |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| salesmen           |
+| test               |
++--------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [library_program]> USE SALESMEN;
+Database changed
+MariaDB [SALESMEN]> CREATE TABLE SALESMAN(
+    -> Salesman_id INT PRIMARY KEY,
+    -> Name VARCHAR(25) NOT NULL,
+    -> City VARCHAR(15) NOT NULL,
+    -> Commission FLOAT NOT NULL
+    -> );
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [SALESMEN]> CREATE TABLE CUSTOMER (
+    ->     Customer_id INT PRIMARY KEY,
+    ->     Cust_Name VARCHAR(25) NOT NULL,
+    ->     City VARCHAR(15) NOT NULL,
+    ->     Grade INT NOT NULL,
+    ->     Salesman_id INT,
+    ->     FOREIGN KEY(Salesman_id) REFERENCES SALESMAN(Salesman_id) ON DELETE SET NULL
+    -> );
+Query OK, 0 rows affected (0.045 sec)
+
+MariaDB [SALESMEN]> CREATE TABLE ORDERS (
+    ->     Ord_No INT PRIMARY KEY,
+    ->     Purchase_Amt INT NOT NULL,
+    ->     Ord_Date DATE NOT NULL,
+    ->     Customer_id INT,
+    ->     Salesman_id INT,
+    ->     FOREIGN KEY(Customer_id) REFERENCES CUSTOMER(Customer_id) ON DELETE CASCADE,
+    ->     FOREIGN KEY(Salesman_id) REFERENCES SALESMAN(Salesman_id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.051 sec)
+
+MariaDB [SALESMEN]> DESC SALESMAN;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Salesman_id | int(11)     | NO   | PRI | NULL    |       |
+| Name        | varchar(25) | NO   |     | NULL    |       |
+| City        | varchar(15) | NO   |     | NULL    |       |
+| Commission  | float       | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.039 sec)
+
+MariaDB [SALESMEN]> DESC CUSTOMER;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Customer_id | int(11)     | NO   | PRI | NULL    |       |
+| Cust_Name   | varchar(25) | NO   |     | NULL    |       |
+| City        | varchar(15) | NO   |     | NULL    |       |
+| Grade       | int(11)     | NO   |     | NULL    |       |
+| Salesman_id | int(11)     | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.029 sec)
+
+MariaDB [SALESMEN]> DESC ORDERS;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| Ord_No       | int(11) | NO   | PRI | NULL    |       |
+| Purchase_Amt | int(11) | NO   |     | NULL    |       |
+| Ord_Date     | date    | NO   |     | NULL    |       |
+| Customer_id  | int(11) | YES  | MUL | NULL    |       |
+| Salesman_id  | int(11) | YES  | MUL | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+5 rows in set (0.030 sec)
+
+
+MariaDB [SALESMEN]> INSERT INTO SALESMAN VALUES (1000, 'JOHN', 'BANGALORE', '25%');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [SALESMEN]> INSERT INTO SALESMAN VALUES (2000, 'RAVI', 'BANGALORE', '20%');
+Query OK, 1 row affected, 1 warning (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO SALESMAN VALUES (3000, 'KUMAR', 'MYSORE', '15%');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+MariaDB [SALESMEN]> INSERT INTO SALESMAN VALUES (4000, 'SMITH', 'DELHI', '30%');
+Query OK, 1 row affected, 1 warning (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO SALESMAN VALUES (5000, 'HARSHA', 'HYDRABAD', '15%');
+Query OK, 1 row affected, 1 warning (0.002 sec)
+
+
+
+MariaDB [SALESMEN]> INSERT INTO CUSTOMER VALUES (10, 'PREETHI', 'BANGALORE', 100, 1000);
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [SALESMEN]> INSERT INTO CUSTOMER VALUES (11, 'VIVEK', 'MANGALORE', 300, 1000);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO CUSTOMER VALUES (12, 'BHASKAR', 'CHENNAI', 400, 2000);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO CUSTOMER VALUES (13, 'CHETHAN', 'BANGALORE', 200, 2000);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO CUSTOMER VALUES (14, 'MAMATHA', 'BANGALORE', 400, 3000);
+Query OK, 1 row affected (0.002 sec)
+
+
+
+ INSERT INTO ORDERS VALUES (50, 5000, '04-MAY-17', 10, 1000);
+Query OK, 1 row affected, 1 warning (0.003 sec)
+
+MariaDB [SALESMEN]> INSERT INTO ORDERS VALUES (51, 450, '20-JAN-17', 10, 2000);
+Query OK, 1 row affected, 1 warning (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO ORDERS VALUES (52, 1000, '24-FEB-17', 13, 2000);
+Query OK, 1 row affected, 1 warning (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO ORDERS VALUES (53, 3500, '13-APR-17', 14, 3000);
+Query OK, 1 row affected, 1 warning (0.001 sec)
+
+MariaDB [SALESMEN]> INSERT INTO ORDERS VALUES (54, 550, '09-MAR-17', 12, 2000);
+Query OK, 1 row affected, 1 warning (0.000 sec)
+
+
+MariaDB [SALESMEN]> SELECT * FROM SALESMAN;
++-------------+--------+-----------+------------+
+| Salesman_id | Name   | City      | Commission |
++-------------+--------+-----------+------------+
+|        1000 | JOHN   | BANGALORE |         25 |
+|        2000 | RAVI   | BANGALORE |         20 |
+|        3000 | KUMAR  | MYSORE    |         15 |
+|        4000 | SMITH  | DELHI     |         30 |
+|        5000 | HARSHA | HYDRABAD  |         15 |
++-------------+--------+-----------+------------+
+5 rows in set (0.000 sec)
+
+MariaDB [SALESMEN]> SELECT * FROM CUSTOMER1;
+ERROR 1146 (42S02): Table 'salesmen.customer1' doesn't exist
+MariaDB [SALESMEN]> SELECT * FROM CUSTOMER;
++-------------+-----------+-----------+-------+-------------+
+| Customer_id | Cust_Name | City      | Grade | Salesman_id |
++-------------+-----------+-----------+-------+-------------+
+|          10 | PREETHI   | BANGALORE |   100 |        1000 |
+|          11 | VIVEK     | MANGALORE |   300 |        1000 |
+|          12 | BHASKAR   | CHENNAI   |   400 |        2000 |
+|          13 | CHETHAN   | BANGALORE |   200 |        2000 |
+|          14 | MAMATHA   | BANGALORE |   400 |        3000 |
++-------------+-----------+-----------+-------+-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [SALESMEN]> SELECT * FROM ORDERS;
++--------+--------------+------------+-------------+-------------+
+| Ord_No | Purchase_Amt | Ord_Date   | Customer_id | Salesman_id |
++--------+--------------+------------+-------------+-------------+
+|     50 |         5000 | 0000-00-00 |          10 |        1000 |
+|     51 |          450 | 0000-00-00 |          10 |        2000 |
+|     52 |         1000 | 0000-00-00 |          13 |        2000 |
+|     53 |         3500 | 0000-00-00 |          14 |        3000 |
+|     54 |          550 | 0000-00-00 |          12 |        2000 |
++--------+--------------+------------+-------------+-------------+
+5 rows in set (0.000 sec)
+
+
+
+
+
+MariaDB [SALESMEN]> SELECT COUNT(Customer_id)
+    -> FROM CUSTOMER
+    -> WHERE Grade > (
+    ->     SELECT AVG(Grade)
+    ->     FROM CUSTOMER
+    ->     WHERE City = 'Bangalore'
+    -> );
++--------------------+
+| COUNT(Customer_id) |
++--------------------+
+|                  3 |
++--------------------+
+1 row in set (0.001 sec)
+
+
+MariaDB [SALESMEN]> SELECT Name, S.Salesman_id, COUNT(Customer_id)
+    -> FROM SALESMAN S, CUSTOMER C
+    -> WHERE S.Salesman_id = C.Salesman_id
+    -> GROUP BY Name
+    -> HAVING COUNT(Customer_id) > 1;
++------+-------------+--------------------+
+| Name | Salesman_id | COUNT(Customer_id) |
++------+-------------+--------------------+
+| JOHN |        1000 |                  2 |
+| RAVI |        2000 |                  2 |
++------+-------------+--------------------+
+2 rows in set (0.001 sec)
+
+
+MariaDB [SALESMEN]> SELECT Name
+    -> FROM SALESMAN S, CUSTOMER C
+    -> WHERE S.Salesman_id = C.Salesman_id AND S.City = C.City
+    -> UNION
+    -> SELECT Name
+    -> FROM SALESMAN
+    -> WHERE Salesman_id NOT IN (
+    -> SELECT S.Salesman_id
+    -> FROM SALESMAN S, CUSTOMER C
+    -> WHERE S.Salesman_id = C.Salesman_id AND S.City = C.City
+    -> );
++--------+
+| Name   |
++--------+
+| JOHN   |
+| RAVI   |
+| KUMAR  |
+| SMITH  |
+| HARSHA |
++--------+
+5 rows in set (0.002 sec)
+
+
+MariaDB [SALESMEN]> CREATE VIEW HighOrder AS
+    -> SELECT Salesman_id, Customer_id, Purchase_Amt, Ord_Date
+    -> FROM ORDERS X
+    -> WHERE Purchase_Amt = (
+    -> SELECT MAX(Purchase_Amt)
+    -> FROM ORDERS Y
+    -> WHERE X.Ord_Date = Y.Ord_Date
+    -> )
+    -> ;
+Query OK, 0 rows affected (0.003 sec)
+
+
+MariaDB [SALESMEN]> DELETE
+    -> FROM SALESMAN
+    -> WHERE Salesman_id = 1000;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [SALESMEN]> SELECT * FROM SALESMAN;
++-------------+--------+-----------+------------+
+| Salesman_id | Name   | City      | Commission |
++-------------+--------+-----------+------------+
+|        2000 | RAVI   | BANGALORE |         20 |
+|        3000 | KUMAR  | MYSORE    |         15 |
+|        4000 | SMITH  | DELHI     |         30 |
+|        5000 | HARSHA | HYDRABAD  |         15 |
++-------------+--------+-----------+------------+
+4 rows in set (0.001 sec)
+
+
+MariaDB [SALESMEN]> SELECT * FROM HighOrder;
++-------------+-------------+--------------+------------+
+| Salesman_id | Customer_id | Purchase_Amt | Ord_Date   |
++-------------+-------------+--------------+------------+
+|        3000 |          14 |         3500 | 0000-00-00 |
++-------------+-------------+--------------+------------+
+1 row in set (0.002 sec)

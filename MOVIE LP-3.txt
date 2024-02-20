@@ -1,0 +1,367 @@
+MariaDB [SALESMEN]> CREATE DATABASE MOVIES;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [SALESMEN]> USE MOVIES;
+Database changed
+MariaDB [MOVIES]> CREATE TABLE ACTOR(
+    -> Act_id INT PRIMARY KEY,
+    -> Act_Name VARCHAR(25) NOT NULL,
+    -> Act_Gender CHAR(1) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [MOVIES]> CREATE TABLE DIRECTOR(
+    -> Dir_id INT PRIMARY KEY,
+    -> Dir_Name VARCHAR(25) NOT NULL,
+    -> Dir_Phone CHAR(10) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [MOVIES]> CREATE TABLE MOVIE(
+    -> Mov_id INT PRIMARY KEY,
+    -> Mov_Title VARCHAR(50) NOT NULL,
+    -> Mov_Year YEAR NOT NULL,
+    -> Mov_Lang VARCHAR(15) NOT NULL,
+    -> Dir_id INT NOT NULL,
+    -> FOREIGN KEY(Dir_id) REFERENCES DIRECTOR(Dir_id)
+    -> );
+Query OK, 0 rows affected (0.033 sec)
+
+MariaDB [MOVIES]> CREATE TABLE MOVIE_CAST(
+    -> Act_id INT,
+    -> Mov_id INT,
+    -> Role VARCHAR(15) NOT NULL,
+    -> PRIMARY KEY(Act_id,Mov_id),
+    -> FOREIGN KEY(Act_id) REFERENCES ACTOR(Act_id),
+    -> FOREIGN KEY(Mov_id) REFERENCES MOVIE(Mov_id)
+    -> );
+Query OK, 0 rows affected (0.033 sec)
+
+MariaDB [MOVIES]>
+MariaDB [MOVIES]> CREATE TABLE RATING(
+    -> Mov_id INT,
+    -> Rev_Stars INT(1) NOT NULL,
+    -> FOREIGN KEY(Mov_id) REFERENCES MOVIE(Mov_id)
+    -> );
+Query OK, 0 rows affected (0.028 sec)
+
+MariaDB [MOVIES]> DESC ACTOR;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Act_id     | int(11)     | NO   | PRI | NULL    |       |
+| Act_Name   | varchar(25) | NO   |     | NULL    |       |
+| Act_Gender | char(1)     | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.026 sec)
+
+MariaDB [MOVIES]> DESC DIRECTOR;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Dir_id    | int(11)     | NO   | PRI | NULL    |       |
+| Dir_Name  | varchar(25) | NO   |     | NULL    |       |
+| Dir_Phone | char(10)    | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.018 sec)
+
+MariaDB [MOVIES]> DESC MOVIE;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Mov_id    | int(11)     | NO   | PRI | NULL    |       |
+| Mov_Title | varchar(50) | NO   |     | NULL    |       |
+| Mov_Year  | year(4)     | NO   |     | NULL    |       |
+| Mov_Lang  | varchar(15) | NO   |     | NULL    |       |
+| Dir_id    | int(11)     | NO   | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.022 sec)
+
+MariaDB [MOVIES]> DESC MOVIE_CAST;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Act_id | int(11)     | NO   | PRI | NULL    |       |
+| Mov_id | int(11)     | NO   | PRI | NULL    |       |
+| Role   | varchar(15) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.024 sec)
+
+MariaDB [MOVIES]> DESC RATING;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| Mov_id    | int(11) | YES  | MUL | NULL    |       |
+| Rev_Stars | int(1)  | NO   |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+2 rows in set (0.023 sec)
+
+
+
+MariaDB [MOVIES]> INSERT INTO ACTOR VALUES ( 510, 'YASH', 'M');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO ACTOR VALUES ( 519, 'RANBIR', 'M');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [MOVIES]> INSERT INTO ACTOR VALUES ( 300, 'KRITI', 'F');
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [MOVIES]> INSERT INTO ACTOR VALUES ( 301, 'DEEPIKA', 'F');
+Query OK, 1 row affected (0.003 sec)
+
+
+
+MariaDB [MOVIES]>  INSERT INTO DIRECTOR VALUES ( 103, 'KARAN JOHAR', '9000001');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [MOVIES]> INSERT INTO DIRECTOR VALUES ( 106, 'HITCHCOCK', '9000787');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]>  INSERT INTO DIRECTOR VALUES ( 109, 'STEVEN SPIELBERG', '9000766');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [MOVIES]>  INSERT INTO DIRECTOR VALUES ( 102, 'RAJAMOULI', '9000755');
+Query OK, 1 row affected (0.001 sec)
+
+
+
+ INSERT INTO MOVIE (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
+    -> VALUES (1008, 'KGF', '2018', 'English', 106);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
+    -> VALUES (1067, 'Cliff', '1988', 'English', 109);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
+    -> VALUES (1004, 'Black water', '1979', 'English', 106);
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
+    -> VALUES (1046, 'Tamasha', '2019', 'Hindi', 109);
+Query OK, 1 row affected (0.001 sec)
+
+ INSERT INTO MOVIE VALUES ( 1090,'Sawariya','2020','Hindi', 103 );
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE VALUES ( 1089,'RRR','1997','Hindi', 102 );
+Query OK, 1 row affected (0.002 sec)
+
+
+
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 519, 1046, 'HERO');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 519, 1067, 'HERO');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 301, 1046, 'HEROIN');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 301, 1004, 'HEROIN');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 300, 1008, 'HEROIN');
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 510, 1008, 'HERO');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 519, 1004, 'HERO');
+Query OK, 1 row affected (0.005 sec)
+
+ INSERT INTO MOVIE_CAST VALUES ( 510, 1089, 'HERO');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO MOVIE_CAST VALUES ( 300, 1089, 'HEROIN');
+Query OK, 1 row affected (0.002 sec)
+
+
+
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1008, 5);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1046, 5);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1067, 5);
+Query OK, 1 row affected (0.005 sec)
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1067, 4);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1089, 4);
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [MOVIES]> INSERT INTO RATING VALUES ( 1004, 4);
+Query OK, 1 row affected (0.002 sec)
+
+
+
+
+
+
+MariaDB [MOVIES]> SELECT * FROM ACTOR;
++--------+----------+------------+
+| Act_id | Act_Name | Act_Gender |
++--------+----------+------------+
+|    300 | KRITI    | F          |
+|    301 | DEEPIKA  | F          |
+|    510 | YASH     | M          |
+|    519 | RANBIR   | M          |
++--------+----------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [MOVIES]> SELECT * FROM DIRECTOR;
++--------+------------------+-----------+
+| Dir_id | Dir_Name         | Dir_Phone |
++--------+------------------+-----------+
+|    102 | RAJAMOULI        | 9000755   |
+|    103 | KARAN JOHAR      | 9000001   |
+|    106 | HITCHCOCK        | 9000787   |
+|    109 | STEVEN SPIELBERG | 9000766   |
++--------+------------------+-----------+
+4 rows in set (0.000 sec)
+
+MariaDB [MOVIES]> SELECT * FROM MOVIE;
++--------+-------------+----------+----------+--------+
+| Mov_id | Mov_Title   | Mov_Year | Mov_Lang | Dir_id |
++--------+-------------+----------+----------+--------+
+|   1004 | Black water |     1979 | English  |    106 |
+|   1008 | KGF         |     2018 | English  |    106 |
+|   1046 | Tamasha     |     2019 | Hindi    |    109 |
+|   1067 | Cliff       |     1988 | English  |    109 |
+|   1089 | RRR         |     1997 | Hindi    |    102 |
+|   1090 | Sawariya    |     2020 | Hindi    |    103 |
++--------+-------------+----------+----------+--------+
+6 rows in set (0.000 sec)
+
+MariaDB [MOVIES]> SELECT * FROM MOVIE_CAST;
++--------+--------+--------+
+| Act_id | Mov_id | Role   |
++--------+--------+--------+
+|    300 |   1008 | HEROIN |
+|    300 |   1089 | HEROIN |
+|    301 |   1004 | HEROIN |
+|    301 |   1046 | HEROIN |
+|    510 |   1008 | HERO   |
+|    510 |   1089 | HERO   |
+|    519 |   1004 | HERO   |
+|    519 |   1046 | HERO   |
+|    519 |   1067 | HERO   |
++--------+--------+--------+
+9 rows in set (0.000 sec)
+
+MariaDB [MOVIES]> SELECT * FROM RATING;
++--------+-----------+
+| Mov_id | Rev_Stars |
++--------+-----------+
+|   1008 |         5 |
+|   1046 |         5 |
+|   1067 |         5 |
+|   1067 |         4 |
+|   1089 |         4 |
+|   1004 |         4 |
++--------+-----------+
+6 rows in set (0.000 sec)
+
+
+
+
+MariaDB [MOVIES]> SELECT Mov_Title
+    -> FROM MOVIE M, DIRECTOR D
+    -> WHERE M.Dir_id = D.Dir_id AND Dir_Name = 'HITCHCOCK';
++-------------+
+| Mov_Title   |
++-------------+
+| Black water |
+| KGF         |
++-------------+
+2 rows in set (0.001 sec)
+
+
+MariaDB [MOVIES]> SELECT M.Mov_Title
+    -> FROM MOVIE M, MOVIE_CAST C
+    -> WHERE M.Mov_id = C.Mov_id AND Act_id IN (
+    -> SELECT Act_id
+    -> FROM MOVIE_CAST
+    -> GROUP BY Act_id
+    -> HAVING COUNT(Act_id) > 1 );
++-------------+
+| Mov_Title   |
++-------------+
+| Black water |
+| Black water |
+| KGF         |
+| KGF         |
+| Tamasha     |
+| Tamasha     |
+| Cliff       |
+| RRR         |
+| RRR         |
++-------------+
+9 rows in set (0.001 sec)
+
+
+
+MariaDB [MOVIES]> SELECT Act_Name
+    ->    FROM (ACTOR A JOIN MOVIE_CAST C ON A.Act_id = C.Act_id) JOIN MOVIE M ON
+    ->    C.Mov_id = M.Mov_id
+    ->     WHERE M.Mov_Year < 2000 AND Act_Name IN (
+    ->      SELECT Act_Name
+    ->      FROM (ACTOR A JOIN MOVIE_CAST C ON A.Act_id = C.Act_id) JOIN MOVIE
+    ->      M ON C.Mov_id = M.Mov_id
+    ->      WHERE M.Mov_Year > 2015);
++----------+
+| Act_Name |
++----------+
+| KRITI    |
+| DEEPIKA  |
+| YASH     |
+| RANBIR   |
+| RANBIR   |
++----------+
+5 rows in set (0.001 sec)
+
+
+
+MariaDB [MOVIES]>  SELECT Mov_Title, Rev_Stars, MAX(Rev_Stars)
+    ->      FROM MOVIE M, RATING R
+    ->      WHERE M.Mov_id = R.Mov_id
+    ->     GROUP BY Mov_Title
+    ->     HAVING COUNT(Mov_Title) > 1
+    ->      ORDER BY Mov_Title;
++-----------+-----------+----------------+
+| Mov_Title | Rev_Stars | MAX(Rev_Stars) |
++-----------+-----------+----------------+
+| Cliff     |         5 |              5 |
++-----------+-----------+----------------+
+1 row in set (0.001 sec)
+
+
+
+MariaDB [MOVIES]>  UPDATE RATING
+    ->      SET Rev_Stars = 5
+    ->      WHERE Mov_id IN (
+    ->      SELECT Mov_id
+    ->      FROM MOVIE M, DIRECTOR D
+    ->      WHERE M.Dir_id = D.Dir_id AND Dir_Name = 'STEVEN SPIELBERG'
+    ->     );
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 3  Changed: 0  Warnings: 0
+
+MariaDB [MOVIES]>      SELECT * FROM RATING;
++--------+-----------+
+| Mov_id | Rev_Stars |
++--------+-----------+
+|   1008 |         5 |
+|   1046 |         5 |
+|   1067 |         5 |
+|   1067 |         5 |
+|   1089 |         4 |
+|   1004 |         4 |
++--------+-----------+
+6 rows in set (0.000 sec)
